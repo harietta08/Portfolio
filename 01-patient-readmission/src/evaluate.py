@@ -64,9 +64,8 @@ def plot_precision_recall_curves(models_results: dict, save_path: str = None):
         save_path: Optional path to save figure
     """
     fig, ax = plt.subplots(figsize=(8, 6))
-    baseline = sum(data['y_test']) / len(data['y_test']) \
-        for data in list(models_results.values())[:1]
-
+    first = list(models_results.values())[0]
+    baseline = sum(first['y_test']) / len(first['y_test'])
     colors = ['#3498db', '#2ecc71', '#e74c3c']
     for i, (name, data) in enumerate(models_results.items()):
         precision, recall, _ = precision_recall_curve(data['y_test'], data['y_proba'])
