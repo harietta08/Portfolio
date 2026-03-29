@@ -1,0 +1,7 @@
+{
+  "model_name": "xgboost",
+  "run_id": "16e5aea12c2b45d5a2658ee28aacfb66",
+  "optimal_threshold": 0.14,
+  "auc_roc": 0.6521562952948049,
+  "recall": 0.9912629070691025
+}
