@@ -1,0 +1,174 @@
+name: P1 CI — Patient Readmission
+
+on:
+  push:
+    paths:
+      - '01-patient-readmission/**'
+  pull_request:
+    paths:
+      - '01-patient-readmission/**'
+
+defaults:
+  run:
+    working-directory: 01-patient-readmission
+
+jobs:
+  test:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: '01-patient-readmission/requirements.txt'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create required directories
+        run: |
+          mkdir -p data/raw
+          mkdir -p mlflow/mlruns
+          mkdir -p logs
+
+      - name: Download dataset
+        run: |
+          pip install kaggle
+          echo "Dataset download skipped in CI — using sample data for tests"
+
+      - name: Create minimal test data
+        run: |
+          python - << 'EOF'
+          import pandas as pd
+          import numpy as np
+          import os
+
+          # Create minimal synthetic dataset for CI testing
+          # Mirrors the structure of diabetic_data.csv
+          np.random.seed(42)
+          n = 500
+
+          med_cols = ['metformin','repaglinide','nateglinide','chlorpropamide',
+                      'glimepiride','acetohexamide','glipizide','glyburide',
+                      'tolbutamide','pioglitazone','rosiglitazone','acarbose',
+                      'miglitol','troglitazone','tolazamide','examide',
+                      'citoglipton','insulin','glyburide-metformin',
+                      'glipizide-metformin','glimepiride-pioglitazone',
+                      'metformin-rosiglitazone','metformin-pioglitazone']
+
+          ages = ['[0-10)','[10-20)','[20-30)','[30-40)','[40-50)',
+                  '[50-60)','[60-70)','[70-80)','[80-90)','[90-100)']
+          races = ['Caucasian','AfricanAmerican','Hispanic','Asian','Other']
+          readmitted = np.random.choice(['<30','>30','NO'], n, p=[0.11,0.35,0.54])
+
+          df = pd.DataFrame({
+              'encounter_id': range(1, n+1),
+              'patient_nbr': range(1001, 1001+n),
+              'race': np.random.choice(races, n),
+              'gender': np.random.choice(['Male','Female'], n),
+              'age': np.random.choice(ages, n),
+              'weight': [None] * n,
+              'admission_type_id': np.random.randint(1, 9, n),
+              'discharge_disposition_id': np.random.randint(1, 29, n),
+              'admission_source_id': np.random.randint(1, 22, n),
+              'time_in_hospital': np.random.randint(1, 15, n),
+              'payer_code': [None] * n,
+              'medical_specialty': np.random.choice(['Cardiology','InternalMedicine',None], n),
+              'num_lab_procedures': np.random.randint(1, 100, n),
+              'num_procedures': np.random.randint(0, 7, n),
+              'num_medications': np.random.randint(1, 30, n),
+              'number_outpatient': np.random.randint(0, 10, n),
+              'number_emergency': np.random.randint(0, 5, n),
+              'number_inpatient': np.random.randint(0, 10, n),
+              'diag_1': np.random.choice(['250.83','410','486','820','401'], n),
+              'diag_2': np.random.choice(['250','401','428','None'], n),
+              'diag_3': np.random.choice(['401','250','None'], n),
+              'number_diagnoses': np.random.randint(1, 16, n),
+              'max_glu_serum': np.random.choice(['None','Normal','>200','>300'], n),
+              'A1Cresult': np.random.choice(['None','Normal','>7','>8'], n),
+              'change': np.random.choice(['Ch','No'], n),
+              'diabetesMed': np.random.choice(['Yes','No'], n),
+              'readmitted': readmitted,
+          })
+
+          for col in med_cols:
+              df[col] = np.random.choice(['No','Steady','Up','Down'], n, p=[0.7,0.2,0.05,0.05])
+
+          os.makedirs('data/raw', exist_ok=True)
+          df.to_csv('data/raw/diabetic_data.csv', index=False)
+          print(f'Synthetic test data created: {df.shape}')
+          EOF
+
+      - name: Create minimal MLflow artifacts for CI
+        run: |
+          python - << 'EOF'
+          import os, json
+          import pandas as pd
+          import numpy as np
+          from sklearn.linear_model import LogisticRegression
+          import mlflow
+          import mlflow.sklearn
+          import sys
+          sys.path.insert(0, '.')
+
+          from src.features import (
+              engineer_features, build_target, deduplicate_patients,
+              build_preprocessor
+          )
+
+          mlflow.set_tracking_uri('mlflow/mlruns')
+          mlflow.set_experiment('patient-readmission')
+
+          raw = pd.read_csv('data/raw/diabetic_data.csv', na_values='?')
+          raw = deduplicate_patients(raw)
+          y = build_target(raw)
+          X = engineer_features(raw)
+
+          preprocessor = build_preprocessor()
+          X_proc = preprocessor.fit_transform(X)
+
+          model = LogisticRegression(max_iter=100, random_state=42)
+          model.fit(X_proc, y)
+
+          with mlflow.start_run() as run:
+              mlflow.sklearn.log_model(model, name='model')
+              run_id = run.info.run_id
+
+          model_info = {
+              'model_name': 'logistic_regression',
+              'run_id': run_id,
+              'optimal_threshold': 0.3,
+              'auc_roc': 0.65,
+              'recall': 0.85
+          }
+          os.makedirs('mlflow', exist_ok=True)
+          with open('mlflow/best_model.json', 'w') as f:
+              json.dump(model_info, f)
+          print(f'CI model artifacts created. Run ID: {run_id}')
+          EOF
+
+      - name: Run unit tests
+        run: python -m pytest tests/ -v --tb=short
+
+  docker:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          cd 01-patient-readmission
+          docker build -t patient-readmission:latest .
+
+      - name: Verify image exists
+        run: docker image inspect patient-readmission:latest
