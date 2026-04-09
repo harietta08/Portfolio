@@ -1,0 +1,64 @@
+# ── Credentials & secrets ──────────────────────────────────────────────────────
+.env
+*.p12
+*.pem
+*service_account*.json
+*credentials*.json
+
+# ── Data (raw and processed gitignored; only data/sample/ is committed) ────────
+data/raw/
+data/processed/
+
+# ── Python ─────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+pip-wheel-metadata/
+
+# ── Virtual environments ────────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ── Jupyter ─────────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── MLflow local artifacts ──────────────────────────────────────────────────────
+mlruns/
+mlartifacts/
+
+# ── ChromaDB local persistence ──────────────────────────────────────────────────
+chroma_db/
+*.chroma
+
+# ── dbt ─────────────────────────────────────────────────────────────────────────
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+dbt/profiles.yml
+
+# ── OS ──────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── IDE ─────────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Logs ────────────────────────────────────────────────────────────────────────
+*.log
+
+# ── Testing & coverage ──────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
