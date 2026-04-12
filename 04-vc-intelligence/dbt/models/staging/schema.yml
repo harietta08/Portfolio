@@ -1,0 +1,88 @@
+# ── dbt/models/staging/schema.yml ────────────────────────────────────────────
+version: 2
+
+sources:
+  - name: vc_raw
+    database: "{{ env_var('GCP_PROJECT_ID') }}"
+    schema: vc_intelligence
+    tables:
+      - name: startups_raw
+        description: "Raw startup funding records loaded from GCS by ingestion pipeline"
+
+models:
+  - name: stg_startups
+    description: "Cleaned and type-cast startup records. One row per startup."
+    columns:
+      - name: startup_id
+        description: "Unique startup identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: startup_name
+        description: "Startup company name"
+        tests:
+          - not_null
+
+      - name: description
+        description: "Startup description text — input to NLP pipeline"
+        tests:
+          - not_null
+
+      - name: sector
+        description: "Industry sector — classification target"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [
+                "Healthcare AI", "Climate Tech", "Fintech", "Robotics",
+                "Space Tech", "LegalTech", "EdTech", "Biotech",
+                "Cybersecurity", "Data Infrastructure", "SaaS Analytics",
+                "HR Tech", "Logistics Tech", "Supply Chain", "Deep Tech",
+                "Agritech", "Insurtech", "Mental Health Tech", "GovTech",
+                "AI Infrastructure", "Construction Tech", "E-commerce",
+                "Healthtech", "Health Tech"
+              ]
+
+      - name: funding_stage
+        description: "Funding round stage"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["Seed", "Series A", "Series B", "Series C", "Pre-seed", "Growth"]
+
+      - name: funding_amount_usd
+        description: "Total funding raised in USD"
+        tests:
+          - not_null
+
+      - name: funding_year
+        description: "Year funding was raised"
+        tests:
+          - not_null
+
+      - name: hq_country
+        description: "Country of headquarters"
+        tests:
+          - not_null
+
+  - name: stg_funding_rounds
+    description: "Funding rounds with stage ranking and deal size buckets"
+    columns:
+      - name: startup_id
+        description: "Unique startup identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: stage_rank
+        description: "Numeric rank of funding stage (1=Seed, 4=Series C)"
+        tests:
+          - not_null
+
+      - name: deal_size_bucket
+        description: "Categorical deal size bucket"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["Micro (<$5M)", "Small ($5-15M)", "Mid ($15-50M)", "Large (>$50M)"]

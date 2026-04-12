@@ -1,0 +1,73 @@
+# ── dbt/models/marts/schema.yml ───────────────────────────────────────────────
+version: 2
+
+models:
+  - name: funding_trends
+    description: >
+      Aggregated funding trends by sector, year, and stage.
+      Powers Looker Studio time-series charts and YoY growth analysis.
+      Materialized as table for dashboard query performance.
+    columns:
+      - name: sector
+        description: "Industry sector"
+        tests:
+          - not_null
+
+      - name: funding_year
+        description: "Year of funding round"
+        tests:
+          - not_null
+
+      - name: funding_stage
+        description: "Funding round stage"
+        tests:
+          - not_null
+
+      - name: deal_count
+        description: "Number of deals in this sector/year/stage"
+        tests:
+          - not_null
+
+      - name: total_funding_m
+        description: "Total funding raised in $M"
+        tests:
+          - not_null
+
+      - name: avg_deal_size_m
+        description: "Average deal size in $M"
+        tests:
+          - not_null
+
+      - name: yoy_growth_pct
+        description: "Year-over-year funding growth percentage"
+
+  - name: sector_heatmap
+    description: >
+      Sector x stage matrix with deal counts and funding totals.
+      Powers Looker Studio heatmap and geographic clustering tiles.
+    columns:
+      - name: sector
+        description: "Industry sector"
+        tests:
+          - not_null
+
+      - name: funding_stage
+        description: "Funding round stage"
+        tests:
+          - not_null
+
+      - name: deal_count
+        description: "Number of deals"
+        tests:
+          - not_null
+
+      - name: total_funding_m
+        description: "Total funding in $M"
+        tests:
+          - not_null
+
+      - name: pct_revenue_stage
+        description: "Percentage of deals with revenue-stage companies"
+
+      - name: pct_of_sector_deals
+        description: "This stage as percentage of all deals in sector"
