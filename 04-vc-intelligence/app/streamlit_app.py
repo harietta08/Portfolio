@@ -1,4 +1,3 @@
-@'
 # ── app/streamlit_app.py ──────────────────────────────────────────────────────
 # Purpose: Two-tab UI — Deal Screener + Market Trends
 # Deployed on HuggingFace Spaces (free forever)
@@ -350,6 +349,3 @@ with tab2:
             "Data refreshes weekly via GitHub Actions · "
             "Built by Hari Etta — [GitHub](https://github.com/HariEtta)"
         )
-'@ | Set-Content -Path "app/streamlit_app.py" -Encoding UTF8
-
-Write-Host "Done" -ForegroundColor Green
