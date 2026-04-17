@@ -1,0 +1,46 @@
+name: P2 dbt CI — dbt test on PR
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '02-ecommerce-pipeline/dbt/**'
+
+jobs:
+  dbt-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 02-ecommerce-pipeline/dbt
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dbt
+        run: |
+          pip install dbt-core dbt-bigquery
+
+      - name: Set up dbt profiles
+        run: |
+          mkdir -p ~/.dbt
+          cp profiles.yml.example ~/.dbt/profiles.yml
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+
+      - name: dbt deps
+        run: dbt deps
+
+      - name: dbt compile (syntax check)
+        run: dbt compile
+
+      - name: dbt test
+        run: dbt test
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}

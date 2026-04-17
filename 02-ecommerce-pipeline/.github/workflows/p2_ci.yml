@@ -1,0 +1,47 @@
+name: P2 CI — pytest
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '02-ecommerce-pipeline/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - '02-ecommerce-pipeline/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 02-ecommerce-pipeline
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('02-ecommerce-pipeline/requirements.txt') }}
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pandas numpy pyarrow --only-binary=:all:
+          pip install requests python-dotenv pandera scipy statsmodels pytest pytest-cov
+
+      - name: Run tests
+        run: pytest tests/ -v --cov=ingestion --cov=analysis --cov-report=term-missing
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: 02-ecommerce-pipeline/htmlcov/

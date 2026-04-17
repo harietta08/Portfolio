@@ -1,0 +1,68 @@
+version: 2
+
+models:
+  - name: int_sessions
+    description: >
+      Session-level aggregation of event stream. One row per session.
+      Contains funnel progression flags and furthest stage reached.
+      Unit of randomization for the A/B test.
+    columns:
+      - name: session_id
+        description: "Unique session identifier"
+        tests:
+          - not_null
+          - unique
+      - name: user_id
+        description: "Customer who owned this session"
+        tests:
+          - not_null
+      - name: ab_variant
+        description: "A/B test variant assigned to this session"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['A', 'B']
+      - name: converted
+        description: "1 if session ended in purchase, 0 otherwise"
+        tests:
+          - not_null
+      - name: furthest_stage
+        description: "Deepest funnel stage reached in this session"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['page_view', 'product_view', 'add_to_cart',
+                       'checkout_start', 'purchase']
+      - name: device
+        description: "Device type for this session"
+        tests:
+          - accepted_values:
+              values: ['mobile', 'desktop']
+
+  - name: int_customer_journey
+    description: >
+      Full customer journey combining order history and session behavior.
+      One row per customer. Input to LTV and retention mart models.
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier"
+        tests:
+          - not_null
+          - unique
+      - name: total_orders
+        description: "Total orders placed"
+        tests:
+          - not_null
+      - name: ltv_simple
+        description: "Historical LTV — total spend to date"
+        tests:
+          - not_null
+      - name: customer_segment
+        description: "Value segment"
+        tests:
+          - accepted_values:
+              values: ['high_value', 'mid_value', 'low_value']
+      - name: session_conversion_rate
+        description: "Percentage of sessions that ended in purchase"
+        tests:
+          - not_null

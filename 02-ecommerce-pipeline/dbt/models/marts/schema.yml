@@ -1,0 +1,115 @@
+version: 2
+
+models:
+  - name: customer_ltv
+    description: >
+      Final customer LTV mart. One row per customer. Incremental model —
+      merges on customer_id so re-runs are safe. Powers the LTV tab
+      in Looker Studio and all customer-level business decisions.
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier — merge key for incremental runs"
+        tests:
+          - not_null
+          - unique
+      - name: customer_segment
+        description: "Value segment based on total spend"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['high_value', 'mid_value', 'low_value']
+      - name: ltv_tier
+        description: "LTV tier based on projected 12-month value"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['platinum', 'gold', 'silver', 'bronze']
+      - name: ltv_simple
+        description: "Historical LTV — total spend to date. Must be >= 0."
+        tests:
+          - not_null
+      - name: ltv_projected_12m
+        description: "Projected 12-month LTV based on order frequency"
+        tests:
+          - not_null
+      - name: total_orders
+        description: "Total orders placed by customer"
+        tests:
+          - not_null
+      - name: is_churned
+        description: "True if no order in last 60 days"
+        tests:
+          - not_null
+      - name: cohort_month
+        description: "Month of first order — cohort anchor for retention analysis"
+        tests:
+          - not_null
+      - name: preferred_device
+        description: "Device type used most by this customer"
+        tests:
+          - accepted_values:
+              values: ['mobile', 'desktop']
+
+  - name: retention_cohorts
+    description: >
+      Monthly cohort retention grid. One row per cohort_month + period_number.
+      Shows what % of each acquisition cohort returned to purchase
+      in subsequent months. Powers the retention tab in Looker Studio.
+    columns:
+      - name: cohort_month
+        description: "Month customers first ordered — acquisition cohort"
+        tests:
+          - not_null
+      - name: period_number
+        description: "Months since acquisition (0 = acquisition month)"
+        tests:
+          - not_null
+      - name: retention_rate
+        description: "Percentage of cohort retained in this period"
+        tests:
+          - not_null
+      - name: cohort_size
+        description: "Number of customers in this cohort"
+        tests:
+          - not_null
+
+  - name: ab_test_results
+    description: >
+      A/B test results aggregated by variant. One row per variant (A and B).
+      Primary metric: conversion rate. Statistical significance tested in
+      notebooks/04_ab_test_analysis.ipynb using scipy two-proportion z-test.
+    columns:
+      - name: ab_variant
+        description: "A = control (3-step checkout), B = treatment (2-step checkout)"
+        tests:
+          - not_null
+          - unique
+          - accepted_values:
+              values: ['A', 'B']
+      - name: total_sessions
+        description: "Total sessions assigned to this variant"
+        tests:
+          - not_null
+      - name: conversion_rate
+        description: "Percentage of sessions that resulted in a purchase"
+        tests:
+          - not_null
+
+  - name: ab_test_segments
+    description: >
+      A/B test results broken down by device and channel.
+      Used to check for heterogeneous treatment effects before rollout.
+      A consistent lift across mobile and desktop signals safe full rollout.
+    columns:
+      - name: device
+        description: "Device type segment"
+        tests:
+          - not_null
+      - name: channel
+        description: "Acquisition channel segment"
+        tests:
+          - not_null
+      - name: conversion_lift_pp
+        description: "Percentage point lift of Variant B over Variant A"
+        tests:
+          - not_null

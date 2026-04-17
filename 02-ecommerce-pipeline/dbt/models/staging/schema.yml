@@ -1,0 +1,134 @@
+version: 2
+
+sources:
+  - name: ecommerce_gold
+    database: "{{ env_var('GCP_PROJECT_ID') }}"
+    schema: ecommerce_analytics
+    tables:
+      - name: gold_customer_kpis
+        description: "Customer-level KPIs aggregated in Databricks Gold layer"
+      - name: gold_product_metrics
+        description: "Product-level revenue and sales metrics from Gold layer"
+      - name: events
+        description: "Synthetic clickstream events for funnel and A/B analysis"
+
+models:
+  - name: stg_orders
+    description: >
+      Standardized order and LTV metrics per customer.
+      One row per customer. Source is gold_customer_kpis.
+    columns:
+      - name: order_user_id
+        description: "Unique customer identifier"
+        tests:
+          - not_null
+          - unique
+      - name: total_orders
+        description: "Total number of orders placed by this customer"
+        tests:
+          - not_null
+      - name: total_spend
+        description: "Lifetime total spend in USD"
+        tests:
+          - not_null
+      - name: avg_order_value
+        description: "Average order value in USD"
+        tests:
+          - not_null
+      - name: first_order_date
+        description: "Date of customer's first order — used as acquisition date for cohorts"
+        tests:
+          - not_null
+      - name: last_order_date
+        description: "Date of customer's most recent order — used for recency scoring"
+        tests:
+          - not_null
+      - name: customer_segment
+        description: "Value segment based on total spend"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['high_value', 'mid_value', 'low_value']
+      - name: is_churned
+        description: "True if no order in last 60 days"
+        tests:
+          - not_null
+      - name: ltv_simple
+        description: "Historical lifetime value — total spend to date"
+        tests:
+          - not_null
+      - name: ltv_projected_12m
+        description: "Projected 12-month LTV based on order frequency"
+        tests:
+          - not_null
+
+  - name: stg_customers
+    description: >
+      Customer profile dimension. One row per customer.
+      Used for joins in intermediate and mart models.
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier"
+        tests:
+          - not_null
+          - unique
+      - name: username
+        description: "Customer username"
+        tests:
+          - not_null
+      - name: email
+        description: "Customer email address"
+        tests:
+          - not_null
+          - unique
+      - name: customer_segment
+        description: "Value segment"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['high_value', 'mid_value', 'low_value']
+      - name: acquisition_date
+        description: "Date of first order — cohort anchor date"
+        tests:
+          - not_null
+
+  - name: stg_events
+    description: >
+      Standardized clickstream event stream.
+      One row per event. Powers funnel analysis and A/B test.
+    columns:
+      - name: event_id
+        description: "Unique event identifier"
+        tests:
+          - not_null
+          - unique
+      - name: session_id
+        description: "Session identifier — unit of A/B test randomization"
+        tests:
+          - not_null
+      - name: user_id
+        description: "Customer who generated the event"
+        tests:
+          - not_null
+      - name: event_type
+        description: "Type of event in the funnel"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['page_view', 'product_view', 'add_to_cart',
+                       'checkout_start', 'purchase']
+      - name: ab_variant
+        description: "A/B test variant — A is control (3-step), B is treatment (2-step)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['A', 'B']
+      - name: device
+        description: "Device type"
+        tests:
+          - accepted_values:
+              values: ['mobile', 'desktop']
+      - name: event_timestamp
+        description: "UTC timestamp of the event"
+        tests:
+          - not_null

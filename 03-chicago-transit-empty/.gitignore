@@ -1,0 +1,66 @@
+# ─── Environment ────────────────────────────────────────────────────────────
+.env
+*.env
+
+# ─── Python ─────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+
+# ─── Jupyter ─────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ─── Data — raw and processed gitignored; sample/ is committed ───────────────
+data/raw/
+data/processed/
+
+# ─── dbt ─────────────────────────────────────────────────────────────────────
+dbt/profiles.yml
+dbt/target/
+dbt/logs/
+dbt/.user.yml
+
+# ─── Credentials ─────────────────────────────────────────────────────────────
+*.json
+!dbt/models/**/*.json
+!gcp/bigquery_schema.json
+service_account*.json
+gcp_credentials*.json
+aws_credentials*
+
+# ─── OS ──────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── IDE ─────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── Prefect ─────────────────────────────────────────────────────────────────
+.prefect/
+
+# ─── Logs ────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ─── Trained model artifacts ─────────────────────────────────────────────────
+models/
+*.pkl
+
+# ─── Coverage ────────────────────────────────────────────────────────────────
+.coverage
+htmlcov/
+.pytest_cache/
