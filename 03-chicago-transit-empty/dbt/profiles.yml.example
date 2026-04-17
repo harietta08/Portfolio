@@ -1,0 +1,34 @@
+# Copy this file to dbt/profiles.yml and fill in your GCP project details.
+# profiles.yml is gitignored — never commit it with real credentials.
+#
+# Authentication:
+#   Option 1 (local dev): run `gcloud auth application-default login`
+#              then set method: oauth below.
+#   Option 2 (CI/CD):     set GOOGLE_APPLICATION_CREDENTIALS env var
+#              pointing to your service account JSON, then set method: service-account.
+
+chicago_transit:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth                         # change to service-account for CI
+      project: your-gcp-project-id         # GCP_PROJECT_ID from .env
+      dataset: chicago_transit_dev          # dev dataset — keeps prod clean
+      location: US
+      threads: 4
+      timeout_seconds: 300
+      priority: interactive
+      # Uncomment for service-account auth:
+      # keyfile: /path/to/service_account.json
+
+    prod:
+      type: bigquery
+      method: service-account
+      project: your-gcp-project-id
+      dataset: chicago_transit
+      location: US
+      threads: 8
+      timeout_seconds: 300
+      priority: batch
+      keyfile: /path/to/service_account.json

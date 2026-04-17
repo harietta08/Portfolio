@@ -1,0 +1,80 @@
+[
+  {
+    "name": "event_id",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Deterministic UUID5 of route + service_date. Used as BigQuery insert_id for deduplication. Re-running the pipeline on the same date produces the same event_id."
+  },
+  {
+    "name": "route",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "CTA bus route number e.g. '22', '77', '151'."
+  },
+  {
+    "name": "service_date",
+    "type": "DATE",
+    "mode": "REQUIRED",
+    "description": "Date of service (YYYY-MM-DD). Table is partitioned on this column for cost-efficient queries."
+  },
+  {
+    "name": "day_type",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "W=Weekday, A=Saturday, U=Sunday or Holiday. Source: CTA Chicago Data Portal."
+  },
+  {
+    "name": "rides",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Total daily ridership count for this route on this service_date."
+  },
+  {
+    "name": "ingested_at",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "UTC timestamp when the Lambda function ingested this record."
+  },
+  {
+    "name": "source",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Data source identifier. Always 'chicago_data_portal' for CTA ridership records."
+  },
+  {
+    "name": "temperature_2m",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Air temperature at 2 metres in degrees Celsius at 8 AM on service_date. Joined from Open-Meteo by the Pub/Sub consumer."
+  },
+  {
+    "name": "apparent_temperature",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Feels-like temperature in degrees Celsius at 8 AM on service_date. From Open-Meteo."
+  },
+  {
+    "name": "precipitation",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Total precipitation in mm on service_date. From Open-Meteo."
+  },
+  {
+    "name": "windspeed_10m",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Wind speed at 10 metres in km/h at 8 AM on service_date. From Open-Meteo."
+  },
+  {
+    "name": "weathercode",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "WMO weather interpretation code. 0=clear sky, 1-3=partly cloudy, 45-48=fog, 61-67=rain, 71-77=snow, 80-82=showers, 95-99=thunderstorm."
+  },
+  {
+    "name": "is_precipitation",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "True if precipitation > 0.1mm on service_date. Derived feature used in Prophet regressors and dbt models."
+  }
+]
