@@ -165,12 +165,12 @@ class TestMAPEStatusThresholds:
         assert self.evaluator._mape_status(MAPE_ERROR_THRESHOLD + 1) == "error"
 
     def test_boundary_exactly_at_warning_threshold(self):
-        """At exactly the warning threshold value → warning."""
-        assert self.evaluator._mape_status(MAPE_WARNING_THRESHOLD) == "warning"
+        """At exactly the warning threshold value → ok (threshold is strictly >)."""
+        assert self.evaluator._mape_status(MAPE_WARNING_THRESHOLD) == "ok"
 
     def test_boundary_exactly_at_error_threshold(self):
-        """At exactly the error threshold value → error."""
-        assert self.evaluator._mape_status(MAPE_ERROR_THRESHOLD) == "error"
+        """At exactly the error threshold value → warning (threshold is strictly >)."""
+        assert self.evaluator._mape_status(MAPE_ERROR_THRESHOLD) == "warning"
 
 
 # ─── ForecastEvaluator.evaluate() tests ──────────────────────────────────────

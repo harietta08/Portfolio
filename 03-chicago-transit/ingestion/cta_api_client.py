@@ -175,7 +175,10 @@ class CTABusRidershipClient:
                 return response.json()
 
             except requests.exceptions.HTTPError as exc:
-                status = exc.response.status_code if exc.response else "unknown"
+                try:
+                    status = exc.response.status_code
+                except AttributeError:
+                    status = "unknown"
                 logger.warning(
                     "HTTP %s on attempt %d/%d", status, attempt, MAX_RETRIES
                 )

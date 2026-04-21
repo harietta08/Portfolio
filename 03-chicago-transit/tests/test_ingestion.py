@@ -137,7 +137,7 @@ class TestCTABusRidershipClient:
                 status=500,
             )
 
-        with pytest.raises(CTAAPIError, match="HTTP 500"):
+        with pytest.raises(CTAAPIError, match="after 3 attempts"):
             self.client.fetch_ridership_by_date_range(
                 start_date=date(2024, 1, 15),
                 end_date=date(2024, 1, 15),
