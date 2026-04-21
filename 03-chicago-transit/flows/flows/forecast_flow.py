@@ -340,7 +340,7 @@ def forecast_flow(
     horizon_days: int = 28,
     eval_days: int = 7,
     retrain: bool = False,
-    lookback_days: int = 90,
+    lookback_days: int = 1200,
 ) -> dict:
     """
     Weekly forecast refresh flow.

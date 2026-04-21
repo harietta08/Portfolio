@@ -6,9 +6,11 @@ from google.cloud import bigquery
 
 client = bigquery.Client(project=os.getenv('GCP_PROJECT_ID'))
 
-# Create dataset
-dataset_id = f"{client.project}.chicago_transit"
-dataset = bigquery.Dataset(dataset_id)
-dataset.location = 'US'
-dataset = client.create_dataset(dataset, exists_ok=True)
-print(f'Dataset created: {dataset.dataset_id}')
+query = """
+SELECT route, service_date, rides, temperature_2m
+FROM `key-range-494015-t7.chicago_transit.transit_events`
+LIMIT 5
+"""
+
+for row in client.query(query).result():
+    print(dict(row))

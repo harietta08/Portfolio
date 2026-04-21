@@ -43,7 +43,7 @@ class TestRunAbTest:
             control_conversions=380,   control_sessions=1000,
             treatment_conversions=450, treatment_sessions=1000
         )
-        assert result["significant"] is True
+        assert result["significant"] == True
         assert result["p_value"] < 0.05
 
     def test_insignificant_result(self):
@@ -52,7 +52,7 @@ class TestRunAbTest:
             control_conversions=38, control_sessions=100,
             treatment_conversions=40, treatment_sessions=100
         )
-        assert result["significant"] is False
+        assert result["significant"] == False
 
     def test_lift_calculation(self):
         result = run_ab_test(
@@ -83,8 +83,7 @@ class TestGuardrailMetric:
         control   = np.random.normal(55, 10, 500)
         treatment = np.random.normal(55, 10, 500)
         result    = check_guardrail_metric(control, treatment, "aov")
-        assert result["guardrail_passed"] is True
-
+        assert result["guardrail_passed"] == True
     def test_large_drop_fails_guardrail(self):
         np.random.seed(42)
         control   = np.random.normal(100, 5, 1000)
