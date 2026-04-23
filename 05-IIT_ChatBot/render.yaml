@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: iit-chatbot-api
+    runtime: python
+    rootDir: CB_Backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api_server:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    plan: starter
+
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_EMBED_MODEL
+        value: text-embedding-3-small
+      - key: OPENAI_CHAT_MODEL
+        value: gpt-4o-mini
+      - key: USE_LLM_INTENT
+        value: "true"
+      - key: USE_LLM_SLOTS
+        value: "true"
+      - key: USE_LLM_NARRATION
+        value: "true"
+      - key: USE_LLM_ANSWER_SYNTHESIS
+        value: "true"
+      - key: USE_ES_KNN
+        value: "true"
+      - key: ENABLE_EVAL_HACKS
+        value: "false"
+      - key: ES_URL
+        sync: false
+      - key: ES_API_KEY
+        sync: false
+      - key: ES_INDEX
+        value: iit_policy_chunks
+      - key: DATABASE_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: http://localhost:3000
+      - key: RATE_LIMIT_PER_HOUR
+        value: "30"

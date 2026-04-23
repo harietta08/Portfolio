@@ -1,0 +1,6 @@
+node_modules/
+CB_Frontend/node_modules/
+.next/
+CB_Frontend/.next/
+.env
+.env.local
