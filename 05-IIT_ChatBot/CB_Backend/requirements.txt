@@ -1,0 +1,20 @@
+# Core
+streamlit>=1.31
+python-dotenv>=1.0
+pydantic>=2.6
+pyyaml>=6.0
+
+# FastAPI
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+
+# ElasticSearch
+elasticsearch>=8.12,<9
+
+# OpenAI
+openai>=1.40.0
+httpx>=0.27.0
+tiktoken>=0.7.0
+
+# Neon / PostgreSQL feedback
+psycopg2-binary>=2.9.9

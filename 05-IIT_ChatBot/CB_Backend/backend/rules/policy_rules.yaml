@@ -1,0 +1,170 @@
+policies:
+- id: cpt_basic
+  intents:
+  - eligibility
+  topics:
+  - employment_cpt
+  decision_mode: allow_if_all
+  conditions:
+  - name: has_job_offer
+    slot: has_job_offer
+    op: truthy
+    value: true
+  - name: job_related_to_major
+    slot: job_related_to_major
+    op: truthy
+    value: true
+  - name: completed_one_academic_year
+    slot: completed_one_academic_year
+    op: truthy
+    value: true
+  - name: full_time_enrollment
+    slot: is_full_time_enrolled
+    op: truthy
+    value: true
+  clarifying_questions:
+    has_job_offer: Do you already have a specific job/internship offer for CPT?
+    job_related_to_major: Is the internship directly related to your major/program?
+    completed_one_academic_year: Have you completed one full academic year in F-1 status (typically two full semesters)?
+    full_time_enrollment: Are you currently enrolled full-time this term?
+  next_steps:
+  - Confirm CPT eligibility with the International Center/DSO.
+  - Prepare offer letter details (start/end dates, hours/week, location) for CPT authorization.
+- id: cpt_before_one_year
+  intents:
+  - eligibility
+  topics:
+  - employment_cpt
+  applies_when:
+  - name: completed_one_academic_year_false
+    slot: completed_one_academic_year
+    op: equals
+    value: false
+  decision_mode: deny_on_fail
+  conditions:
+  - name: completed_one_academic_year
+    slot: completed_one_academic_year
+    op: equals
+    value: false
+  clarifying_questions:
+    completed_one_academic_year: Have you completed one full academic year in F-1 status (typically two full semesters)?
+  next_steps:
+  - You must complete one full academic year in F-1 status before CPT is allowed (unless an official program-required exception
+    applies).
+  - CPT before one academic year may be possible only if the program requires it; confirm with the DSO.
+  decision: not_allowed
+- id: opt_general
+  intents:
+  - eligibility
+  topics:
+  - employment_opt
+  decision_mode: allow_if_all
+  conditions:
+  - name: is_f1_student
+    slot: is_f1_student
+    op: truthy
+    value: true
+  - name: full_time_enrollment
+    slot: is_full_time_enrolled
+    op: truthy
+    value: true
+  clarifying_questions:
+    is_f1_student: Are you currently maintaining valid F-1 status?
+    full_time_enrollment: Are you currently enrolled full-time?
+  next_steps:
+  - Confirm the correct OPT timeline and filing window with the International Center/DSO.
+- id: stem_opt_requires_everify
+  intents:
+  - eligibility
+  topics:
+  - employment_stem_opt_application_procedures
+  - employment_stem_opt_i983_instructions
+  decision_mode: deny_on_fail
+  conditions:
+  - name: employer_everify
+    slot: employer_everify
+    op: truthy
+    value: true
+  clarifying_questions:
+    employer_everify: Is your employer enrolled in E-Verify?
+  next_steps:
+  - If the employer is not in E-Verify, STEM OPT is not allowed.
+  - If E-Verify is confirmed, prepare Form I-983 and confirm timelines with the DSO.
+- id: rcl_requires_dso
+  intents:
+  - eligibility
+  topics:
+  - f1_status_reduced_course_load
+  decision_mode: deny_on_fail
+  conditions:
+  - name: dso_approved
+    slot: dso_approved
+    op: truthy
+    value: true
+  - name: rcl_reason_known
+    slot: rcl_reason
+    op: exists
+    value: true
+  clarifying_questions:
+    dso_approved: Has your DSO approved the reduced course load before you drop classes?
+    rcl_reason_known: What is the RCL reason (medical, final semester, or academic difficulty)?
+  next_steps:
+  - Do not drop below full-time without prior DSO authorization.
+  - Provide required documentation for the specific RCL reason (e.g., doctor letter for medical).
+- id: online_limit_one_course
+  intents:
+  - eligibility
+  topics:
+  - f1_status_enrollment_requirements
+  decision_mode: deny_on_fail
+  conditions:
+  - name: number_of_online_classes
+    slot: number_of_online_classes
+    op: lte
+    value: 1
+  clarifying_questions:
+    number_of_online_classes: How many online/distance classes are you planning to take this term?
+  next_steps:
+  - If you need more online classes, ask the DSO whether any exception applies.
+- id: full_time_undergrad
+  intents:
+  - eligibility
+  topics:
+  - f1_status_enrollment_requirements
+  decision_mode: deny_on_fail
+  conditions:
+  - name: degree_undergraduate
+    slot: degree_level
+    op: equals
+    value: undergraduate
+  - name: credits_full_time_undergrad
+    slot: credits
+    op: gte
+    value: 12
+  clarifying_questions:
+    degree_undergraduate: Are you an undergraduate student?
+    credits_full_time_undergrad: How many credits are you enrolled in this term?
+  next_steps:
+  - If you are below full-time, request approval (RCL) before changing enrollment.
+- id: full_time_graduate
+  intents:
+  - eligibility
+  topics:
+  - f1_status_enrollment_requirements
+  decision_mode: deny_on_fail
+  conditions:
+  - name: degree_graduate
+    slot: degree_level
+    op: in
+    value:
+    - graduate
+    - phd
+  - name: credits_full_time_grad
+    slot: credits
+    op: gte
+    value: 9
+  clarifying_questions:
+    degree_graduate: Are you a graduate or PhD student?
+    credits_full_time_grad: How many credits are you enrolled in this term?
+  next_steps:
+  - If you are below full-time, request DSO approval (RCL) before changing enrollment.

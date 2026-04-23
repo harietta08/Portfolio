@@ -1,0 +1,88 @@
+{
+  "passed": 2,
+  "total": 2,
+  "results": [
+    {
+      "id": "cpt_multiturn",
+      "passed": true,
+      "failures": [],
+      "turns": [
+        {
+          "turn": 1,
+          "user": "Can I do CPT in my first semester?",
+          "mode": "rules",
+          "topic": "employment_cpt",
+          "intent": "eligibility",
+          "decision": "depends",
+          "policy_id": "cpt_basic",
+          "missing_slots": [
+            "completed_one_academic_year",
+            "full_time_enrollment",
+            "has_job_offer",
+            "job_related_to_major"
+          ],
+          "errors": []
+        },
+        {
+          "turn": 2,
+          "user": "I have completed one academic year and I have a job offer.",
+          "mode": "rules",
+          "topic": "employment_cpt",
+          "intent": "eligibility",
+          "decision": "depends",
+          "policy_id": "cpt_basic",
+          "missing_slots": [
+            "full_time_enrollment",
+            "job_related_to_major"
+          ],
+          "errors": []
+        },
+        {
+          "turn": 3,
+          "user": "Yes it's related to my major and I'm full-time.",
+          "mode": "rules",
+          "topic": "employment_cpt",
+          "intent": "eligibility",
+          "decision": "allowed",
+          "policy_id": "cpt_basic",
+          "missing_slots": [],
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "online_switch_after_cpt",
+      "passed": true,
+      "failures": [],
+      "turns": [
+        {
+          "turn": 1,
+          "user": "Can I do CPT?",
+          "mode": "rules",
+          "topic": "employment_cpt",
+          "intent": "eligibility",
+          "decision": "depends",
+          "policy_id": "cpt_basic",
+          "missing_slots": [
+            "completed_one_academic_year",
+            "full_time_enrollment",
+            "has_job_offer",
+            "job_related_to_major"
+          ],
+          "errors": []
+        },
+        {
+          "turn": 2,
+          "user": "Can I take 2 online classes this semester?",
+          "mode": "rules",
+          "topic": "f1_status_enrollment_requirements",
+          "intent": "eligibility",
+          "decision": "not_allowed",
+          "policy_id": "online_limit_one_course",
+          "missing_slots": [],
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

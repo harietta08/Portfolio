@@ -1,0 +1,162 @@
+{
+  "data\\md\\employment\\employment_cpt.md": {
+    "sha256": "21ba6925506a4e243c617fa387abf246dd8d04453d2fd4781f083693c2107515",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 18,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "employment_cpt",
+    "source_url": "https://www.iit.edu/global-services/student-employment/curricular-practical-training-cpt"
+  },
+  "data\\md\\employment\\employment_on_campus.md": {
+    "sha256": "b1b5fff7841ef62d0bcf73bcf6f5894a66975882bc494a5b551e395cb65dcbb4",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 21,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "employment_on_campus",
+    "source_url": "https://www.iit.edu/global-services/student-employment/campus-employment"
+  },
+  "data\\md\\employment\\employment_opt.md": {
+    "sha256": "70feb52cbbcb1d8c77f734335cd9fba9bbfb628b5d1dcf1439d9c8221f014fb4",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 22,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "employment_opt",
+    "source_url": "https://www.iit.edu/global-services/student-employment/optional-practical-training-opt"
+  },
+  "data\\md\\employment\\employment_opt_reporting_requirements.md": {
+    "sha256": "757b7eff2810fa4f17aaac4c8cbd29f27df30bca120ab4dd1a03afe94a5231ea",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 16,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "employment_opt_reporting_requirements",
+    "source_url": "https://www.iit.edu/global-services/student-employment/optional-practical-training-opt/opt-reporting-requirements"
+  },
+  "data\\md\\employment\\employment_opt_sevp_portal.md": {
+    "sha256": "4d2031ab37d3bacb87e49c723f81327246d43b3ed5dd72b11cec0d9ff4b8679e",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 12,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "employment_opt_sevp_portal",
+    "source_url": "https://www.iit.edu/global-services/student-employment/optional-practical-training-opt/sevp-portal"
+  },
+  "data\\md\\employment\\employment_stem_opt_application_procedures.md": {
+    "sha256": "5cf26217c54b9b55e742c6d3c09a823ebc6892637018cd15b90535da8a7b84fc",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 16,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "employment_stem_opt_application_procedures",
+    "source_url": "https://www.iit.edu/global-services/student-employment/opt-stem-extension/application-procedures"
+  },
+  "data\\md\\employment\\employment_stem_opt_i983_instructions.md": {
+    "sha256": "1515f336be7cc07c8021992956028b48c63f840f2a7ce53ef43e4f89447f75ea",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 18,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "employment_stem_opt_i983_instructions",
+    "source_url": "https://www.iit.edu/global-services/student-employment/opt-stem-extension/form-i-983-instructions"
+  },
+  "data\\md\\f1_status_maintenance\\f1_status_change_to_f1_j1.md": {
+    "sha256": "38f1d488c41499bbdde875714ae28fb243697bed768fd5cefb5deb34b5cdc979",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 18,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "f1_status_change_to_f1_j1",
+    "source_url": "https://www.iit.edu/global-services/student-services/student-requests/changing-f-1-and-j-1"
+  },
+  "data\\md\\f1_status_maintenance\\f1_status_enrollment_requirements.md": {
+    "sha256": "091aef6f27eb59bc068ef7d6845d48a47796d38e0328fbbe0ca570af6f7e4f09",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 12,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "f1_status_enrollment_requirements",
+    "source_url": "https://www.iit.edu/global-services/student-services/enrollment-requirements"
+  },
+  "data\\md\\f1_status_maintenance\\f1_status_forms_and_requests.md": {
+    "sha256": "4820daa4608c99d6c9a2e2e146f8b3ddd599784209f7c5581bcf37b31f1a4546",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 20,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "f1_status_forms_and_requests",
+    "source_url": "https://www.iit.edu/global-services/student-services/student-requests/forms"
+  },
+  "data\\md\\f1_status_maintenance\\f1_status_forms_i20_ds2019.md": {
+    "sha256": "4d30a20c49f7433c04a0e4d5c2408f395da50b73985224ae610332c8cf47b19e",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 19,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "f1_status_forms_i20_ds2019",
+    "source_url": "https://www.iit.edu/global-services/incoming-international-students/forms-i-20-and-ds-2019"
+  },
+  "data\\md\\f1_status_maintenance\\f1_status_new_student_check_in.md": {
+    "sha256": "3b03df2060f42adbeb7c9b28cea4c657b71b1b1e3920ef1c9cc9c6a691e3f2c4",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 12,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "f1_status_new_student_check_in",
+    "source_url": "https://www.iit.edu/global-services/incoming-international-students/international-students-check"
+  },
+  "data\\md\\f1_status_maintenance\\f1_status_pre_enrollment_fee.md": {
+    "sha256": "54a14e3368823640c617857e651d36e0dff7790f6c21fed38fa040dfb20aa4f7",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 14,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "f1_status_pre_enrollment_fee",
+    "source_url": "https://www.iit.edu/global-services/student-services/student-requests/transfer-out"
+  },
+  "data\\md\\f1_status_maintenance\\f1_status_processing_times.md": {
+    "sha256": "d3a333b0e7840a2612e52edb6a1c540b7362b96457ddde7f5376b872764658b3",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 7,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "f1_status_processing_times",
+    "source_url": "https://www.iit.edu/global-services/student-services/student-requests/processing-times"
+  },
+  "data\\md\\f1_status_maintenance\\f1_status_reduced_course_load.md": {
+    "sha256": "c134076256d5d3e2e0b9042ba75b45905dcdcd4eed4bca4390524c317a1c654f",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 14,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "f1_status_reduced_course_load",
+    "source_url": "https://www.iit.edu/global-services/student-services/student-requests/reduced-course-load"
+  },
+  "data\\md\\f1_status_maintenance\\f1_status_Travel.md": {
+    "sha256": "0109964a82da18c6b8c96d5cd4f4ad453bc085180b3fa784b2f3af3ed932b859",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 20,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "f1_status_travel",
+    "source_url": "https://www.iit.edu/global-services/incoming-international-students/travel"
+  },
+  "data\\md\\health_insurance_life_in_us\\health_insurance_ship_waiver.md": {
+    "sha256": "8dd9b3071e69c7b6c568c440fe928595481b70c2bef7ad27a56b24b8af2ff7fa",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 12,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "health_insurance_ship_waiver",
+    "source_url": "https://www.iit.edu/shwc/insurance/students"
+  },
+  "data\\md\\health_insurance_life_in_us\\health_insurance_shwc_services.md": {
+    "sha256": "3d60f5967154669b5a88c21d0f2cb7b68496e6a58a0018a8a2d83ad8b772d8c5",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 14,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "health_insurance_shwc_services",
+    "source_url": "https://www.iit.edu/shwc"
+  },
+  "data\\md\\health_insurance_life_in_us\\health_insurance_ssn.md": {
+    "sha256": "91ef0bfe2c87c1613f22ca10d0e92e73811c9fff90a155031e6fe9df2655bb49",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 22,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "health_insurance_ssn",
+    "source_url": "https://www.iit.edu/global-services/student-services/life-us-resources/social-security-number"
+  },
+  "data\\md\\health_insurance_life_in_us\\health_insurance_student_fees.md": {
+    "sha256": "b4640dd35af981b3c959deb93a7111983b8339db2e8cebae59a80eccb38822e1",
+    "indexed_at": "2026-03-30T22:09:27.872362+00:00",
+    "chunks": 21,
+    "embedding_model": "text-embedding-3-small",
+    "doc_id": "health_insurance_student_fees",
+    "source_url": "https://www.iit.edu/student-accounting/tuition-and-fees/mandatory-and-other-fees"
+  }
+}

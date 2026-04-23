@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --scarlet: #CC0000;
+  --scarlet-dark: #A30000;
+  --scarlet-glow: rgba(204, 0, 0, 0.08);
+  --bg: #F5F5F7;
+  --bg-white: #FFFFFF;
+  --bg-sidebar: #FAFAFA;
+  --border: #E5E5EA;
+  --border-strong: #D1D1D6;
+  --text: #1C1C1E;
+  --text-mid: #48484A;
+  --text-muted: #8E8E93;
+  --text-dim: #AEAEB2;
+  --user-bubble: #CC0000;
+  --bot-bubble: #FFFFFF;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D1D1D6; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #AEAEB2; }
+
+/* Markdown prose inside bot bubbles */
+.prose-iit { font-size: 0.875rem; line-height: 1.7; color: #1C1C1E; }
+.prose-iit p { margin-bottom: 0.5rem; }
+.prose-iit p:last-child { margin-bottom: 0; }
+.prose-iit strong { font-weight: 600; color: #1C1C1E; }
+.prose-iit ul { list-style: disc; padding-left: 1.25rem; margin: 0.5rem 0; }
+.prose-iit ol { list-style: decimal; padding-left: 1.25rem; margin: 0.5rem 0; }
+.prose-iit li { margin-bottom: 0.25rem; }
+.prose-iit a { color: var(--scarlet); text-decoration: underline; text-underline-offset: 2px; }
+.prose-iit a:hover { color: var(--scarlet-dark); }
+.prose-iit h3 {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin: 1rem 0 0.35rem;
+  font-family: var(--font-barlow);
+}
+.prose-iit code {
+  font-size: 0.8rem;
+  background: #F2F2F7;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid #E5E5EA;
+}
+.prose-iit blockquote {
+  border-left: 3px solid var(--scarlet);
+  padding-left: 0.75rem;
+  color: var(--text-mid);
+  margin: 0.5rem 0;
+}
+
+.prose-iit .iit-link {
+  color: #cc0000;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+
+.prose-iit .iit-link:hover {
+  color: #a30000;
+}
