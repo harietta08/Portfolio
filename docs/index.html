@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[Your Name] — Data & Analytics Portfolio</title>
+<meta name="description" content="[Your Name] — Data Analyst / Data Scientist / AI-ML Engineer portfolio">
+
+<!-- ============================================================
+     FONTS
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     DESIGN TOKENS — Paper & Ink palette
+     Edit these variables to shift the whole site's look.
+     ============================================================ */
+  :root{
+    --paper:      #F7F4EE;
+    --paper-alt:  #F1ECE2;
+    --ink:        #1F1D1A;
+    --ink-soft:   #6B6660;
+    --line:       #E5E0D8;
+    --surface:    #FFFFFF;
+    --amber:      #D97706;
+    --amber-soft: #F3D9B1;
+    --amber-dim:  rgba(217,119,6,0.12);
+
+    --status-live:     #2F7D5A;
+    --status-progress: #B4740E;
+    --status-planned:  #8A857D;
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body:    'Inter', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+
+    --max-w: 980px;
+    --edge: 1px solid var(--line);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *,*::before,*::after{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+  }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+
+  /* Visible keyboard focus everywhere */
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .wrap{
+    max-width:var(--max-w);
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  section{
+    padding:88px 0;
+    border-bottom:var(--edge);
+  }
+  section:last-of-type{ border-bottom:none; }
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--amber);
+    margin:0 0 12px 0;
+  }
+  .eyebrow::before{ content:"// "; color:var(--ink-soft); }
+
+  h1,h2,h3{
+    font-family:var(--font-display);
+    font-weight:600;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+
+  h2{ font-size:clamp(1.5rem, 2.4vw, 2rem); margin-bottom:36px; }
+
+  /* Scroll-reveal utility */
+  .reveal{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+  }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero{
+    padding-top:110px;
+    padding-bottom:80px;
+    border-bottom:var(--edge);
+  }
+  .hero-name{
+    font-size:clamp(2.4rem, 6vw, 4rem);
+    line-height:1.05;
+  }
+  .hero-roles{
+    font-family:var(--font-mono);
+    font-size:clamp(0.85rem, 1.6vw, 1rem);
+    color:var(--ink-soft);
+    margin-top:18px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 0;
+  }
+  .hero-roles .sep{ margin:0 10px; color:var(--line); }
+  .hero-position{
+    font-size:clamp(1.05rem, 2vw, 1.25rem);
+    max-width:560px;
+    margin-top:28px;
+    color:var(--ink);
+  }
+  .hero-position .cursor{
+    display:inline-block;
+    width:9px; height:1.1em;
+    background:var(--amber);
+    margin-left:4px;
+    vertical-align:text-bottom;
+    animation:blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+  @media (prefers-reduced-motion: reduce){ .cursor{ animation:none; opacity:1; } }
+
+  /* ============================================================
+     CONTACT STRIP
+     ============================================================ */
+  .contact-strip{
+    padding:32px 0;
+  }
+  .contact-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 28px;
+    font-family:var(--font-mono);
+    font-size:14px;
+  }
+  .contact-row a, .contact-row span{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--ink);
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+    transition:border-color 0.15s ease, color 0.15s ease;
+  }
+  .contact-row a:hover{
+    color:var(--amber);
+    border-bottom-color:var(--amber);
+  }
+  .contact-row .dot{ color:var(--amber); }
+
+  /* ============================================================
+     GENERIC SECTION LAYOUT HELPERS
+     ============================================================ */
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+
+  /* ============================================================
+     EDUCATION
+     ============================================================ */
+  .edu-card{
+    border:var(--edge);
+    background:var(--surface);
+    border-radius:6px;
+    padding:24px 28px;
+  }
+  .edu-card + .edu-card{ margin-top:16px; }
+  .edu-top{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    align-items:baseline;
+  }
+  .edu-degree{ font-family:var(--font-display); font-weight:600; font-size:1.15rem; }
+  .edu-year{ font-family:var(--font-mono); font-size:13px; color:var(--ink-soft); white-space:nowrap; }
+  .edu-inst{ color:var(--ink-soft); margin-top:4px; }
+  .edu-extra{ margin-top:10px; font-size:14px; color:var(--ink-soft); }
+
+  /* ============================================================
+     EXPERIENCE
+     ============================================================ */
+  .exp-item{
+    padding:26px 0;
+    border-top:var(--edge);
+  }
+  .exp-item:first-child{ border-top:none; padding-top:0; }
+  .exp-top{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    align-items:baseline;
+  }
+  .exp-role-co{ font-family:var(--font-display); font-weight:600; font-size:1.1rem; }
+  .exp-role-co .co{ color:var(--amber); }
+  .exp-dates{ font-family:var(--font-mono); font-size:13px; color:var(--ink-soft); white-space:nowrap; }
+  .exp-bullets{
+    margin:14px 0 0 0;
+    padding-left:20px;
+    color:var(--ink);
+  }
+  .exp-bullets li{ margin-bottom:6px; }
+  .exp-bullets li::marker{ color:var(--amber); }
+
+  /* ============================================================
+     TECH STACK — node graph
+     ============================================================ */
+  .stack-note{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-bottom:28px;
+    font-family:var(--font-mono);
+  }
+  .stack-graph-wrap{
+    border:var(--edge);
+    background:var(--surface);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  #stack-graph{
+    width:100%;
+    height:auto;
+    display:block;
+    touch-action:none;
+  }
+  #stack-graph .edge{
+    stroke:var(--line);
+    stroke-width:1.4;
+    transition:stroke 0.2s ease, stroke-width 0.2s ease, opacity 0.2s ease;
+  }
+  #stack-graph .edge.active{
+    stroke:var(--amber);
+    stroke-width:2;
+  }
+  #stack-graph .edge.dim{ opacity:0.25; }
+
+  #stack-graph .node-circle{
+    fill:var(--surface);
+    stroke:var(--ink);
+    stroke-width:1.4;
+    transition:fill 0.2s ease, stroke 0.2s ease, opacity 0.2s ease, r 0.15s ease;
+  }
+  #stack-graph .node.category .node-circle{ fill:var(--ink); stroke:var(--ink); }
+  #stack-graph .node.core .node-circle{ fill:var(--amber); stroke:var(--amber); }
+  #stack-graph .node.dim .node-circle{ opacity:0.3; }
+  #stack-graph .node.active .node-circle{ fill:var(--amber); stroke:var(--amber); }
+
+  #stack-graph .node-label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    fill:var(--ink);
+    transition:opacity 0.2s ease, fill 0.2s ease;
+    pointer-events:none;
+  }
+  #stack-graph .node.category .node-label{ font-weight:700; fill:var(--surface); font-size:10px; }
+  #stack-graph .node.core .node-label{ fill:var(--surface); font-weight:700; }
+  #stack-graph .node.dim .node-label{ opacity:0.3; }
+
+  #stack-graph .node{ cursor:pointer; }
+
+  /* Legend under the graph, grouped by category — doubles as accessible content */
+  .stack-legend{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+    gap:20px;
+    margin-top:28px;
+  }
+  .stack-legend h3{
+    font-family:var(--font-mono);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  .stack-legend ul{ list-style:none; margin:0; padding:0; }
+  .stack-legend li{
+    font-size:14px;
+    padding:4px 0;
+  }
+
+  /* ============================================================
+     PROJECTS
+     ============================================================ */
+  .project-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:20px;
+  }
+  .project-card{
+    display:block;
+    text-decoration:none;
+    color:var(--ink);
+    border:var(--edge);
+    background:var(--surface);
+    border-radius:8px;
+    padding:22px;
+    position:relative;
+    transition:transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .project-card:hover, .project-card:focus-visible{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(31,29,26,0.08);
+    border-color:var(--ink);
+  }
+  .project-status{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    padding:3px 9px;
+    border-radius:20px;
+    margin-bottom:14px;
+  }
+  .project-status.live{ color:var(--status-live); background:rgba(47,125,90,0.1); }
+  .project-status.progress{ color:var(--status-progress); background:rgba(180,116,14,0.1); }
+  .project-status.planned{ color:var(--status-planned); background:rgba(138,133,125,0.12); }
+  .project-status .dot{
+    width:6px; height:6px; border-radius:50%; background:currentColor;
+  }
+  .project-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:1.1rem;
+    margin-bottom:8px;
+  }
+  .project-desc{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin-bottom:16px;
+  }
+  .project-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .project-tags span{
+    font-family:var(--font-mono);
+    font-size:11px;
+    padding:3px 8px;
+    border:1px solid var(--line);
+    border-radius:4px;
+    color:var(--ink-soft);
+  }
+  .project-arrow{
+    position:absolute;
+    top:22px; right:22px;
+    font-family:var(--font-mono);
+    color:var(--ink-soft);
+    transition:transform 0.18s ease, color 0.18s ease;
+  }
+  .project-card:hover .project-arrow{ transform:translate(3px,-3px); color:var(--amber); }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer{
+    padding:40px 0 60px 0;
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  footer a{ color:var(--ink-soft); text-decoration:underline; text-underline-offset:3px; }
+  footer a:hover{ color:var(--amber); }
+
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
+  @media (max-width:640px){
+    section{ padding:56px 0; }
+    .hero{ padding-top:72px; padding-bottom:56px; }
+    .edu-top, .exp-top{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     1. HERO
+     EDIT: name, roles, positioning statement below.
+     ============================================================ -->
+<header class="hero wrap">
+  <p class="eyebrow">portfolio</p>
+  <h1 class="hero-name">[Your Name]</h1>
+  <p class="hero-roles">
+    <span>[Data Analyst]</span><span class="sep">/</span>
+    <span>[Business Analyst]</span><span class="sep">/</span>
+    <span>[Data Scientist]</span><span class="sep">/</span>
+    <span>[AI-ML Engineer]</span><span class="sep">/</span>
+    <span>[Data Engineer]</span><span class="sep">/</span>
+    <span>[Financial Analyst]</span><span class="sep">/</span>
+    <span>[Risk Analyst]</span>
+  </p>
+  <p class="hero-position">[Add your one-line positioning statement — e.g. "I turn messy, high-volume data into decisions people actually trust."]<span class="cursor" aria-hidden="true"></span></p>
+</header>
+
+<!-- ============================================================
+     2. CONTACT
+     EDIT: replace placeholder links/text with your real info.
+     Remove the phone line entirely if you'd rather not list it.
+     ============================================================ -->
+<section class="contact-strip wrap reveal" aria-label="Contact details">
+  <div class="contact-row">
+    <a href="mailto:you@example.com">✉ [you@example.com]</a>
+    <a href="tel:+10000000000">☎ [+1 000 000 0000]</a>
+    <a href="https://linkedin.com/in/yourname" target="_blank" rel="noopener">in [linkedin.com/in/yourname]</a>
+    <a href="https://github.com/yourusername" target="_blank" rel="noopener">⌥ [github.com/yourusername]</a>
+    <span>📍 [City]</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. EDUCATION
+     EDIT: duplicate .edu-card for multiple degrees.
+     ============================================================ -->
+<section class="wrap reveal" id="education">
+  <p class="eyebrow">education</p>
+  <h2>Education</h2>
+
+  <div class="edu-card">
+    <div class="edu-top">
+      <span class="edu-degree">[Degree, e.g. B.S. in Statistics]</span>
+      <span class="edu-year">[Year]</span>
+    </div>
+    <div class="edu-inst">[Institution Name]</div>
+    <div class="edu-extra">[Relevant coursework / honors — e.g. Applied Regression, Machine Learning, Dean's List]</div>
+  </div>
+
+  <!-- Duplicate the block below for a second degree/certification -->
+  <!--
+  <div class="edu-card">
+    <div class="edu-top">
+      <span class="edu-degree">[Degree]</span>
+      <span class="edu-year">[Year]</span>
+    </div>
+    <div class="edu-inst">[Institution Name]</div>
+    <div class="edu-extra">[Coursework / honors]</div>
+  </div>
+  -->
+</section>
+
+<!-- ============================================================
+     4. WORK EXPERIENCE
+     EDIT: duplicate .exp-item for each role. Never invent bullets —
+     leave the [Impact bullet...] placeholders until you have real content.
+     ============================================================ -->
+<section class="wrap reveal" id="experience">
+  <p class="eyebrow">experience</p>
+  <h2>Work Experience</h2>
+
+  <div class="exp-item">
+    <div class="exp-top">
+      <span class="exp-role-co">[Job Title] — <span class="co">[Company Name]</span></span>
+      <span class="exp-dates">[Start] – [End]</span>
+    </div>
+    <ul class="exp-bullets">
+      <li>[Impact bullet — what you did, what changed as a result]</li>
+      <li>[Impact bullet — quantify where possible, e.g. reduced X by Y%]</li>
+      <li>[Impact bullet — optional third point]</li>
+    </ul>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-top">
+      <span class="exp-role-co">[Job Title] — <span class="co">[Company Name]</span></span>
+      <span class="exp-dates">[Start] – [End]</span>
+    </div>
+    <ul class="exp-bullets">
+      <li>[Impact bullet]</li>
+      <li>[Impact bullet]</li>
+    </ul>
+  </div>
+
+  <!-- Duplicate an .exp-item block above for each additional role -->
+</section>
+
+<!-- ============================================================
+     5. TECH STACK — interactive node graph
+     EDIT: change the STACK_DATA array in the <script> at the bottom
+     to reflect your real tools. Categories become the dark hub
+     nodes; each category's array items become the leaf nodes.
+     A plain-text legend is included below the graph for accessibility
+     and so the content works even with JS disabled.
+     ============================================================ */
+     -->
+<section class="wrap reveal" id="stack">
+  <p class="eyebrow">tech stack</p>
+  <h2>Tech Stack</h2>
+  <p class="stack-note">Hover or tap a node to trace connections. Sample tools shown below — edit STACK_DATA in the source to reflect your real stack.</p>
+
+  <div class="stack-graph-wrap">
+    <svg id="stack-graph" viewBox="0 0 900 560" role="img" aria-label="Node graph of tech stack grouped by category"></svg>
+  </div>
+
+  <div class="stack-legend" id="stack-legend">
+    <!-- Populated by JS from STACK_DATA; also serves as a no-JS fallback list -->
+  </div>
+</section>
+
+<!-- ============================================================
+     6. PROJECTS
+     EDIT: duplicate .project-card for each project. Set href to the
+     live demo if deployed, otherwise the GitHub repo. Set the status
+     class to one of: live / progress / planned.
+     ============================================================ -->
+<section class="wrap reveal" id="projects">
+  <p class="eyebrow">projects</p>
+  <h2>Projects</h2>
+
+  <div class="project-grid">
+
+    <!-- Project card 1 -->
+    <a class="project-card" href="#" target="_blank" rel="noopener">
+      <!-- EDIT href above: point to live demo URL if deployed, else GitHub repo URL -->
+      <span class="project-status planned"><span class="dot"></span>Planned</span>
+      <div class="project-title">[Project Name]</div>
+      <p class="project-desc">[One-paragraph description — what the project does, what problem it solves, and why it's interesting.]</p>
+      <div class="project-tags">
+        <span>[Python]</span><span>[SQL]</span><span>[Tag]</span>
+      </div>
+      <span class="project-arrow" aria-hidden="true">↗</span>
+    </a>
+
+    <!-- Project card 2 -->
+    <a class="project-card" href="#" target="_blank" rel="noopener">
+      <span class="project-status progress"><span class="dot"></span>In progress</span>
+      <div class="project-title">[Project Name]</div>
+      <p class="project-desc">[One-paragraph description.]</p>
+      <div class="project-tags">
+        <span>[Tag]</span><span>[Tag]</span>
+      </div>
+      <span class="project-arrow" aria-hidden="true">↗</span>
+    </a>
+
+    <!-- Project card 3 -->
+    <a class="project-card" href="#" target="_blank" rel="noopener">
+      <span class="project-status live"><span class="dot"></span>Live</span>
+      <div class="project-title">[Project Name]</div>
+      <p class="project-desc">[One-paragraph description.]</p>
+      <div class="project-tags">
+        <span>[Tag]</span><span>[Tag]</span><span>[Tag]</span>
+      </div>
+      <span class="project-arrow" aria-hidden="true">↗</span>
+    </a>
+
+    <!-- Duplicate an <a class="project-card"> block above for each additional project -->
+
+  </div>
+</section>
+
+<footer class="wrap">
+  <span>© <span id="year"></span> [Your Name]</span>
+  <span>Built with HTML, CSS &amp; JS — hosted on GitHub Pages</span>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ==============================================================
+     SCROLL REVEAL
+     ============================================================== */
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in-view'); });
+  }
+
+  /* ==============================================================
+     TECH STACK NODE GRAPH
+     EDIT STACK_DATA to reflect your real tools.
+     Structure: { category: "Label", items: ["Tool 1","Tool 2", ...] }
+     ============================================================== */
+  var STACK_DATA = [
+    { category: "Languages",     items: ["Python", "SQL", "R"] },
+    { category: "Analytics/BI",  items: ["Excel", "Tableau", "Power BI"] },
+    { category: "ML",            items: ["scikit-learn", "TensorFlow", "PyTorch"] },
+    { category: "Engineering",   items: ["Airflow", "Spark", "dbt"] },
+    { category: "Cloud",         items: ["AWS", "GCP", "Azure"] }
+  ];
+
+  var svg = document.getElementById('stack-graph');
+  var svgNS = "http://www.w3.org/2000/svg";
+  var VW = 900, VH = 560;
+  var cx = VW/2, cy = VH/2 - 10;
+  var catRadius = 165;
+  var leafRadius = 78;
+
+  var nodes = []; // {id, x, y, label, type, parent}
+  var edges = []; // {a, b}
+
+  nodes.push({ id:'core', x:cx, y:cy, label:'STACK', type:'core' });
+
+  STACK_DATA.forEach(function(group, i){
+    var angle = (i / STACK_DATA.length) * Math.PI * 2 - Math.PI/2;
+    var gx = cx + catRadius * Math.cos(angle);
+    var gy = cy + catRadius * Math.sin(angle);
+    var catId = 'cat-' + i;
+    nodes.push({ id:catId, x:gx, y:gy, label:group.category, type:'category' });
+    edges.push({ a:'core', b:catId });
+
+    var spread = Math.PI / 2.6;
+    group.items.forEach(function(item, j){
+      var n = group.items.length;
+      var itemAngle = angle - spread/2 + (n === 1 ? spread/2 : (spread * j / (n-1)));
+      var ix = gx + leafRadius * Math.cos(itemAngle);
+      var iy = gy + leafRadius * Math.sin(itemAngle);
+      var leafId = catId + '-leaf-' + j;
+      nodes.push({ id:leafId, x:ix, y:iy, label:item, type:'leaf', parent:catId });
+      edges.push({ a:catId, b:leafId });
+    });
+  });
+
+  function makeEl(tag, attrs){
+    var el = document.createElementNS(svgNS, tag);
+    Object.keys(attrs).forEach(function(k){ el.setAttribute(k, attrs[k]); });
+    return el;
+  }
+
+  svg.setAttribute('viewBox', '0 0 ' + VW + ' ' + VH);
+
+  var edgeEls = {};
+  edges.forEach(function(e, idx){
+    var na = nodes.find(function(n){ return n.id === e.a; });
+    var nb = nodes.find(function(n){ return n.id === e.b; });
+    var line = makeEl('line', {
+      class:'edge', x1:na.x, y1:na.y, x2:nb.x, y2:nb.y,
+      'data-a':e.a, 'data-b':e.b
+    });
+    svg.appendChild(line);
+    edgeEls[idx] = line;
+  });
+
+  var nodeEls = {};
+  nodes.forEach(function(n){
+    var g = makeEl('g', { class:'node ' + n.type, tabindex:'0', 'data-id':n.id, role:'button', 'aria-label':n.label });
+    var r = n.type === 'core' ? 34 : n.type === 'category' ? 26 : 18;
+    var circle = makeEl('circle', { class:'node-circle', cx:n.x, cy:n.y, r:r });
+    g.appendChild(circle);
+
+    var label = makeEl('text', {
+      class:'node-label', x:n.x, y: n.type==='leaf' ? n.y + r + 13 : n.y + 4,
+      'text-anchor':'middle'
+    });
+    label.textContent = n.label;
+    if(n.type === 'leaf'){ label.setAttribute('fill', 'var(--ink)'); }
+    g.appendChild(label);
+
+    svg.appendChild(g);
+    nodeEls[n.id] = g;
+
+    function activate(){ highlight(n.id); }
+    function deactivate(){ clearHighlight(); }
+
+    g.addEventListener('mouseenter', activate);
+    g.addEventListener('mouseleave', deactivate);
+    g.addEventListener('focus', activate);
+    g.addEventListener('blur', deactivate);
+  });
+
+  function connectedIds(id){
+    var set = new Set([id]);
+    edges.forEach(function(e){
+      if(e.a === id) set.add(e.b);
+      if(e.b === id) set.add(e.a);
+    });
+    // also include grandparent/children for category nodes
+    if(id.indexOf('cat-') === 0){
+      edges.forEach(function(e){
+        if(e.a === id) set.add(e.b);
+      });
+    }
+    return set;
+  }
+
+  function highlight(id){
+    var connected = connectedIds(id);
+    Object.keys(nodeEls).forEach(function(nid){
+      var g = nodeEls[nid];
+      if(connected.has(nid)){
+        g.classList.remove('dim');
+        if(nid === id) g.classList.add('active');
+      } else {
+        g.classList.add('dim');
+      }
+    });
+    edges.forEach(function(e, idx){
+      var line = edgeEls[idx];
+      if(e.a === id || e.b === id){
+        line.classList.add('active');
+        line.classList.remove('dim');
+      } else {
+        line.classList.remove('active');
+        line.classList.add('dim');
+      }
+    });
+  }
+
+  function clearHighlight(){
+    Object.keys(nodeEls).forEach(function(nid){
+      nodeEls[nid].classList.remove('dim','active');
+    });
+    edges.forEach(function(e, idx){
+      edgeEls[idx].classList.remove('active','dim');
+    });
+  }
+
+  /* Text legend (also acts as no-JS-friendly duplicate content) */
+  var legend = document.getElementById('stack-legend');
+  STACK_DATA.forEach(function(group){
+    var col = document.createElement('div');
+    var h3 = document.createElement('h3');
+    h3.textContent = group.category;
+    var ul = document.createElement('ul');
+    group.items.forEach(function(item){
+      var li = document.createElement('li');
+      li.textContent = item;
+      ul.appendChild(li);
+    });
+    col.appendChild(h3);
+    col.appendChild(ul);
+    legend.appendChild(col);
+  });
+
+})();
+</script>
+
+</body>
+</html>
